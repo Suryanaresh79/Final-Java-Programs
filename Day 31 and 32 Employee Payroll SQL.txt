@@ -1,0 +1,280 @@
+Enter password: **************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.28 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+================================= UC1 ========================================
+
+mysql> create database payroll_service1;
+Query OK, 1 row affected (0.45 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee_payroll   |
+| information_schema |
+| mysql              |
+| payroll_service1   |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.05 sec)
+
+mysql> use payroll_service1;
+Database changed
+
+***************************************** UC2 ************************************************************
+mysql> create table employee_payroll(id int,name varchar(55),salary int,startdate datetime,primary key(id));
+Query OK, 0 rows affected (2.08 sec)
+
+mysql> select * from employee_payroll;
+Empty set (0.04 sec)
+
+mysql> describe employee_payroll;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int         | NO   | PRI | NULL    |       |
+| name      | varchar(55) | YES  |     | NULL    |       |
+| salary    | int         | YES  |     | NULL    |       |
+| startdate | datetime    | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.34 sec)
+
+******************************************** UC3 ***************************************************
+mysql> insert into employee_payroll(id,name,salary)value(1,'pavan',30000);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employee_payroll(id,name,salary)value(2,'Naresh',60000);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into employee_payroll(id,name,salary)value(3,'Kumar',50000);
+Query OK, 1 row affected (0.07 sec)
+
+******************************************* UC4 *****************************************************
+
+mysql> select * from employee_payroll;
++----+--------+--------+-----------+
+| id | name   | salary | startdate |
++----+--------+--------+-----------+
+|  1 | pavan  |  30000 | NULL      |
+|  2 | Naresh |  60000 | NULL      |
+|  3 | Kumar  |  50000 | NULL      |
++----+--------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set startdate='2020-04-12' where id=1;
+Query OK, 1 row affected (0.46 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set startdate='2020-05-15' where id=2;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set startdate='2020-09-01' where id=3;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------+---------------------+
+| id | name   | salary | startdate           |
++----+--------+--------+---------------------+
+|  1 | pavan  |  30000 | 2020-04-12 00:00:00 |
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 |
++----+--------+--------+---------------------+
+3 rows in set (0.00 sec)
+
+******************************************* UC5 *****************************************
+
+mysql> select * from employee_payroll where name='Naresh';
++----+--------+--------+---------------------+
+| id | name   | salary | startdate           |
++----+--------+--------+---------------------+
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 |
++----+--------+--------+---------------------+
+1 row in set (0.02 sec)
+
+mysql> select * from employee_payroll where id=3;
++----+-------+--------+---------------------+
+| id | name  | salary | startdate           |
++----+-------+--------+---------------------+
+|  3 | Kumar |  50000 | 2020-09-01 00:00:00 |
++----+-------+--------+---------------------+
+1 row in set (0.00 sec)
+
+***************************************** UC6 *********************************************
+
+mysql> alter table employee_payroll add gender char(1);
+Query OK, 0 rows affected (0.81 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------+---------------------+--------+
+| id | name   | salary | startdate           | gender |
++----+--------+--------+---------------------+--------+
+|  1 | pavan  |  30000 | 2020-04-12 00:00:00 | NULL   |
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | NULL   |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 | NULL   |
++----+--------+--------+---------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set gender='M' where id=1;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set gender='M' where id=2;
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set gender='M' where id=3;
+Query OK, 1 row affected (0.28 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------+---------------------+--------+
+| id | name   | salary | startdate           | gender |
++----+--------+--------+---------------------+--------+
+|  1 | pavan  |  30000 | 2020-04-12 00:00:00 | M      |
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | M      |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 | M      |
++----+--------+--------+---------------------+--------+
+3 rows in set (0.00 sec)
+
+*************************************** UC7 *************************************************************************************
+
+mysql> select sum(salary) from employee_payroll where gender='M';
++-------------+
+| sum(salary) |
++-------------+
+|      140000 |
++-------------+
+1 row in set (0.04 sec)
+
+mysql> select avg(salary) from employee_payroll where gender='M';
++-------------+
+| avg(salary) |
++-------------+
+|  46666.6667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from employee_payroll where gender='M';
++-------------+
+| max(salary) |
++-------------+
+|       60000 |
++-------------+
+1 row in set (0.04 sec)
+
+mysql> select min(salary) from employee_payroll where gender='M';
++-------------+
+| min(salary) |
++-------------+
+|       30000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(salary) from employee_payroll where gender='M';
++---------------+
+| count(salary) |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.00 sec)
+
+************************************************************ UC8 ****************************************************************************************************
+
+mysql> Alter table employee_payroll add employee_phone varchar(255), add address varchar(112) default ("address not provided"), add department varchar(80) not null;
+Query OK, 3 rows affected (1.76 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> update employee_payroll set employee_phone='7896565834',address='Nagar',department='frontend' where id=1;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set employee_phone='9876545634',address='chilaka',department='cloudcomputing' where id=2;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set employee_phone='9678565434',address='bangalore',department='developer' where id=3;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+
+| id | name   | salary | startdate           | gender | employee_phone | address   | department     |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+
+|  1 | pavan  |  30000 | 2020-04-12 00:00:00 | M      | 7896565834     | Nagar     | frontend       |
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | M      | 9876545634     | chilaka   | cloudcomputing |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 | M      | 9678565434     | bangalore | developer      |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+******************************************************************* UC9 ****************************************************************************************
+
+mysql> Alter table employee_payroll add Basic_pay float,add Deductions float,add taxable_pay float,add Income_Tax float,add net_pay float;
+Query OK, 0 rows affected (0.60 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update employee_payroll set Basic_pay='3500',Deductions='2000',taxable_pay='1000',Income_Tax='3000',net_pay='30000' where id=1;
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Basic_pay='65000',Deductions='2000',taxable_pay='2000',Income_Tax='2000',net_pay='60000' where id=2;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Basic_pay='55000',Deductions='1000',taxable_pay='2000',Income_Tax='3000',net_pay='50000' where id=3;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Basic_pay='35000' where id=1;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll
+    ->
+    -> \c
+mysql> select * from employee_payroll;
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+| id | name   | salary | startdate           | gender | employee_phone | address   | department     | Basic_pay | Deductions | taxable_pay | Income_Tax | net_pay |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+|  1 | pavan  |  30000 | 2020-04-12 00:00:00 | M      | 7896565834     | Nagar     | frontend       |     35000 |       2000 |        1000 |       3000 |   30000 |
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | M      | 9876545634     | chilaka   | cloudcomputing |     65000 |       2000 |        2000 |       2000 |   60000 |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 | M      | 9678565434     | bangalore | developer      |     55000 |       1000 |        2000 |       3000 |   50000 |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+3 rows in set (0.00 sec)
+
+******************************************************************* UC10 *****************************************************************************************
+
+mysql> select * from employee_payroll where name='Naresh';
++----+--------+--------+---------------------+--------+----------------+---------+----------------+-----------+------------+-------------+------------+---------+
+| id | name   | salary | startdate           | gender | employee_phone | address | department     | Basic_pay | Deductions | taxable_pay | Income_Tax | net_pay |
++----+--------+--------+---------------------+--------+----------------+---------+----------------+-----------+------------+-------------+------------+---------+
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | M      | 9876545634     | chilaka | cloudcomputing |     65000 |       2000 |        2000 |       2000 |   60000 |
++----+--------+--------+---------------------+--------+----------------+---------+----------------+-----------+------------+-------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee_payroll where salary>40000;
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+| id | name   | salary | startdate           | gender | employee_phone | address   | department     | Basic_pay | Deductions | taxable_pay | Income_Tax | net_pay |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+|  2 | Naresh |  60000 | 2020-05-15 00:00:00 | M      | 9876545634     | chilaka   | cloudcomputing |     65000 |       2000 |        2000 |       2000 |   60000 |
+|  3 | Kumar  |  50000 | 2020-09-01 00:00:00 | M      | 9678565434     | bangalore | developer      |     55000 |       1000 |        2000 |       3000 |   50000 |
++----+--------+--------+---------------------+--------+----------------+-----------+----------------+-----------+------------+-------------+------------+---------+
+2 rows in set (0.02 sec)
+
+mysql>

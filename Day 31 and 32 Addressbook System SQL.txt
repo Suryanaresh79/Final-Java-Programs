@@ -1,0 +1,388 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43
+Server version: 8.0.28 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+========================================UC1==========================================================
+
+mysql> create database addressbookservice;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use addressbookservice;
+Database changed
+
+========================================UC2==========================================================
+
+mysql> create table addressbooktable(id int auto_increment,firstname varchar(50) not null,lastname varchar(50),address varchar(60),city varchar(50),state varchar(50),zip int,phonenumber bigint not null,email varchar(70) default ('email not provided'));
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> create table addressbooktable(id int auto_increment,firstname varchar(50) not null,lastname varchar(50),address varchar(60),city varchar(50),state varchar(50),zip int,phonenumber bigint not null,email varchar(70) default ('email not provided'),primary key(id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> describe addressbooktable;
++-------------+-------------+------+-----+------------------------------+-------------------+
+| Field       | Type        | Null | Key | Default                      | Extra             |
++-------------+-------------+------+-----+------------------------------+-------------------+
+| id          | int         | NO   | PRI | NULL                         | auto_increment    |
+| firstname   | varchar(50) | NO   |     | NULL                         |                   |
+| lastname    | varchar(50) | YES  |     | NULL                         |                   |
+| address     | varchar(60) | YES  |     | NULL                         |                   |
+| city        | varchar(50) | YES  |     | NULL                         |                   |
+| state       | varchar(50) | YES  |     | NULL                         |                   |
+| zip         | int         | YES  |     | NULL                         |                   |
+| phonenumber | bigint      | NO   |     | NULL                         |                   |
+| email       | varchar(70) | YES  |     | _cp850\'email not provided\' | DEFAULT_GENERATED |
++-------------+-------------+------+-----+------------------------------+-------------------+
+9 rows in set (0.00 sec)
+
+==========================================UC3========================================================
+
+mysql> INSERT INTO addressbooktable( firstname,lastname,address,city,state,zip,phonenumber,email) VALUES ('Naresh', 'kumar', 'gunnahalli', 'chinthamani ', 'karnataka ', 563128, 9878987898,'Naresh@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO addressbooktable( firstname,lastname,address,city,state,zip,phonenumber,email) VALUES ('Salaar', 'rocky', 'kaiwara', 'chinthamani ', 'karnataka ', 563125, 9864587898,'rocky@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO addressbooktable( firstname,address,city,state,zip,phonenumber) VALUES ('Vijay', 'kanakpura', 'bangalore ', 'karnataka ', 560062, 9878956432);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | Salaar    | rocky    | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
+|  3 | Vijay     | NULL     | kanakpura  | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+3 rows in set (0.00 sec)
+
+=======================================UC4===========================================================
+
+mysql> update addressbooktable set Address = 'banasankri' where firstname='Vijay,;
+    '> \c
+    '> "\c"
+    '> "\c';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update addressbooktable set Address = 'banasankri' where firstname='Vijay';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | Salaar    | rocky    | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
+|  3 | Vijay     | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+3 rows in set (0.00 sec)
+
+======================================UC5============================================================
+
+mysql> delete from addressbooktable where firstname='Salaar';
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  3 | Vijay     | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from addressbooktable where city='bangalore';
+Empty set (0.00 sec)
+
+mysql> select * from addressbooktable where city='chintamani';
+Empty set (0.00 sec)
+
+mysql> select * from addressbooktable where state='karnataka';
+Empty set (0.00 sec)
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | pavan@gmail.com    |
+|  3 | Vijay     | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+2 rows in set (0.00 sec)
+
+=======================================UC6=========================================================
+
+mysql> select * from addressbooktable where id=3;
++----+-----------+----------+------------+------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city       | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+------------+------------+--------+-------------+--------------------+
+|  3 | Vijay     | NULL     | banasankri | bangalore  | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+------------+------------+--------+-------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from addressbooktable where city='bangalore';
+Empty set (0.00 sec)
+
+mysql>  INSERT INTO addressbooktable( firstname,lastname,address,city,state,zip,phonenumber,email) VALUES ('Salaar', 'rocky', 'kaiwara', 'chinthamani ', 'karnataka ', 563125, 9864587898,'rocky@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  3 | Vijay     | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | rocky    | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql>  INSERT INTO addressbooktable(id,firstname,lastname,address,city,state,zip,phonenumber,email) VALUES (2,'inf', 'eagle', 'mandya', 'mysore', 'karnataka ', 563345, 9833387898,'inf@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | inf       | eagle    | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  3 | Vijay     | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | rocky    | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+----------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+====================================UC7========================================================
+
+mysql> select count(firstname) from addressbooktable;
++------------------+
+| count(firstname) |
++------------------+
+|                4 |
++------------------+
+1 row in set (0.00 sec)
+
+======================================UC8========================================================
+
+mysql> select * from addressbooktable order by firstname;
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | type       | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+|  2 | inf       | eagle    | friend     | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  1 | Naresh    | kumar    | family     | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  4 | Salaar    | rocky    | family     | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
+|  3 | Vijay     | NULL     | bestfriend | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+
+================================UC9=================================================================
+
+mysql> alter table addressbooktable add type varchar(100) after firstname;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbooktable;
++----+-----------+------+----------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | type | lastname | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+------+----------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | NULL | kumar    | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | inf       | NULL | eagle    | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  3 | Vijay     | NULL | NULL     | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | NULL | rocky    | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+------+----------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table addressbooktable drop column type;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table addressbooktable add type varchar(100) after lastname;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | type | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | NULL | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | inf       | eagle    | NULL | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  3 | Vijay     |  NULL    | NULL | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | rocky    | NULL | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+----------+------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbooktable set type='family' where firstname='Naresh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbooktable set type='friend' where firstname='inf';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbooktable set type='bestfriend' where firstname='Vijay';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbooktable set type='family' where firstname='Salaar';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | type       | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | family     | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | inf       | eagle    | friend     | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  3 | Vijay     | NULL     | bestfriend | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | rocky    | family     | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+=======================================UC10=======================================================
+
+mysql> select type,count(firstname) from addressbooktable group by type;
++------------+------------------+
+| type       | count(firstname) |
++------------+------------------+
+| family     |                2 |
+| friend     |                1 |
+| bestfriend |                1 |
++------------+------------------+
+3 rows in set (0.00 sec)
+
+========================================UC11=========================================================
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbookservice |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| payroll_service1   |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> describe addressbookservice;
+ERROR 1146 (42S02): Table 'addressbookservice.addressbookservice' doesn't exist
+mysql> use addressbookservice
+Database changed
+mysql> describe addressbooktable;
++-------------+--------------+------+-----+------------------------------+-------------------+
+| Field       | Type         | Null | Key | Default                      | Extra             |
++-------------+--------------+------+-----+------------------------------+-------------------+
+| id          | int          | NO   | PRI | NULL                         | auto_increment    |
+| firstname   | varchar(50)  | NO   |     | NULL                         |                   |
+| lastname    | varchar(50)  | YES  |     | NULL                         |                   |
+| type        | varchar(100) | YES  |     | NULL                         |                   |
+| address     | varchar(60)  | YES  |     | NULL                         |                   |
+| city        | varchar(50)  | YES  |     | NULL                         |                   |
+| state       | varchar(50)  | YES  |     | NULL                         |                   |
+| zip         | int          | YES  |     | NULL                         |                   |
+| phonenumber | bigint       | NO   |     | NULL                         |                   |
+| email       | varchar(70)  | YES  |     | _cp850\'email not provided\' | DEFAULT_GENERATED |
++-------------+--------------+------+-----+------------------------------+-------------------+
+10 rows in set (0.00 sec)
+
+============================================UC12======================================================
+
+mysql> selext * from addressbooktable;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selext * from addressbooktable' at line 1
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | type       | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+|  1 | Naresh    | kumar    | family     | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com   |
+|  2 | inf       | eagle    | friend     | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  3 | Vijay     | NULL     | bestfriend | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  4 | Salaar    | rocky    | family     | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from addressbooktable where city='chinthamani';
+Empty set (0.00 sec)
+
+=============================================UC13=====================================================
+
+--------------UC6--------------------------
+
+mysql> select * from addressbooktable where id=1;
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+| id | firstname | lastname | type   | address    | city         | state      | zip    | phonenumber | email           |
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+|  1 | Naresh    | kumar    | family | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com|
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+1 row in set (0.00 sec)
+
+--------------UC7------------------------
+
+mysql> select count(city) from addressbooktable;
++-------------+
+| count(city) |
++-------------+
+|           4 |
++-------------+
+1 row in set (0.00 sec)
+
+--------------UC8--------------------------
+
+mysql> select * from addressbooktable order by firstname;
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+| id | firstname | lastname | type       | address    | city         | state      | zip    | phonenumber | email              |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+|  3 | Vijay     | NULL     | bestfriend | banasankri | bangalore    | karnataka  | 560062 |  9878956432 | email not provided |
+|  2 | inf       | eagle    | friend     | mandya     | mysore       | karnataka  | 563345 |  9833387898 | inf@gmail.com      |
+|  4 | Salaar    | rocky    | family     | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com    |
+|  1 | Naresh    | kumar    | family     | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | pavan@gmail.com    |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+--------------------+
+4 rows in set (0.00 sec)
+
+--------------UC9-------------------------
+
+mysql> select * from addressbooktable where type='family';
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+| id | firstname | lastname | type   | address    | city         | state      | zip    | phonenumber | email           |
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+|  1 | Naresh    | kumar    | family | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 | Naresh@gmail.com|
+|  4 | Salaar    | rocky    | family | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 | rocky@gmail.com |
++----+-----------+----------+--------+------------+--------------+------------+--------+-------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table addressbooktable add landline int(15) after phonenumber;
+Query OK, 0 rows affected, 1 warning (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from addressbooktable;
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+----------+--------------------+
+| id | firstname | lastname | type       | address    | city         | state      | zip    | phonenumber | landline | email              |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+----------+--------------------+
+|  1 | Naresh    | kumar    | family     | gunnahalli | chinthamani  | karnataka  | 563128 |  9878987898 |     NULL | Naresh@gmail.com   |
+|  2 | inf       | eagle    | friend     | mandya     | mysore       | karnataka  | 563345 |  9833387898 |     NULL | inf@gmail.com      |
+|  3 | Vijay     | NULL     | bestfriend | banasankri | bangalore    | karnataka  | 560062 |  9878956432 |     NULL | email not provided |
+|  4 | Salaar    | rocky    | family     | kaiwara    | chinthamani  | karnataka  | 563125 |  9864587898 |     NULL | rocky@gmail.com    |
++----+-----------+----------+------------+------------+--------------+------------+--------+-------------+----------+--------------------+
+4 rows in set (0.00 sec)
+
+--------------UC10-----------------------
+
+mysql> select type,count(firstname) from addressbooktable group by type;
++------------+------------------+
+| type       | count(firstname) |
++------------+------------------+
+| family     |                2 |
+| friend     |                1 |
+| bestfriend |                1 |
++------------+------------------+
+3 rows in set (0.00 sec)
+
+mysql>
